@@ -3,7 +3,9 @@
 //ini_set('mysql.connect_timeout', 300);
 //ini_set('default_socket_timeout', 300);
 
-$cliente = 104;
+$cliente = 1;
+
+// abertura das conexões com os doi bancos de dados desejados
 
 $link = mysqli_connect('localhost:8000', 'root', '12345', 'base_inicial') or die(mysqli_error($link));
 
@@ -12,6 +14,7 @@ $novoLink = mysqli_connect("localhost:8000", "root", "12345", "base_nova") or di
 mysqli_options($link, MYSQLI_OPT_CONNECT_TIMEOUT, 0);
 mysqli_options($novoLink, MYSQLI_OPT_CONNECT_TIMEOUT, 0);
 
+// função para gerar as linhas de insert para a nova base de dados
 function preencheArquivo($query, $table)
 {
     global $novoLink;
@@ -66,6 +69,8 @@ function preencheArquivo($query, $table)
     }
 }
 
+// função para garantir que a conexão ainda existe
+// caso não exista a função fecha a antiga e cria novamente
 function confereLink()
 {
     global $link;
@@ -81,6 +86,8 @@ function confereLink()
 
     return $link;
 }
+
+// seleções dos dados das tabelas do banco
 
 //Select tabela Pessoa
 $query = mysqli_query(confereLink(), "SELECT p.*
